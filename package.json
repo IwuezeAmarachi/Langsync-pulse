@@ -1,0 +1,22 @@
+{
+  "name": "langsync-pulse",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace @langsync/web",
+    "dev:worker": "npm run dev --workspace @langsync/worker",
+    "dev:extension": "npm run dev --workspace @langsync/extension",
+    "build": "npm run build --workspaces",
+    "build:web": "npm run build --workspace @langsync/web",
+    "build:worker": "npm run build --workspace @langsync/worker",
+    "build:extension": "npm run build --workspace @langsync/extension",
+    "typecheck": "npm run typecheck --workspaces",
+    "db:generate": "npm run db:generate --workspace @langsync/db",
+    "db:push": "npm run db:push --workspace @langsync/db",
+    "db:migrate": "npm run db:migrate --workspace @langsync/db"
+  }
+}

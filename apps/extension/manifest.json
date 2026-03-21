@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "LangSync Pulse",
+  "version": "0.1.0",
+  "description": "Capture AI responses and sync to LangSync Pulse.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://www.perplexity.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.ts",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "LangSync Pulse"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["src/content.ts"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String            @id @default(cuid())
+  email             String            @unique
+  fullName          String?
+  authProvider      String            @default("email")
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  workspacesCreated Workspace[]
+  workspaces        WorkspaceMember[]
+}
+
+model Workspace {
+  id              String            @id @default(cuid())
+  name            String
+  createdByUserId String
+  planType        String            @default("free")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  createdBy       User              @relation(fields: [createdByUserId], references: [id])
+  members         WorkspaceMember[]
+  brand           Brand?
+  competitors     Competitor[]
+  prompts         Prompt[]
+  captures        Capture[]
+  analyses        Analysis[]
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        String    @default("member")
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+}
+
+model Brand {
+  id               String    @id @default(cuid())
+  workspaceId      String    @unique
+  name             String
+  primaryDomain    String?
+  aliasesJson      Json      @default("[]")
+  productNamesJson Json      @default("[]")
+  founderNamesJson Json      @default("[]")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  workspace        Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Competitor {
+  id            String    @id @default(cuid())
+  workspaceId   String
+  name          String
+  primaryDomain String?
+  aliasesJson   Json      @default("[]")
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Prompt {
+  id                String    @id @default(cuid())
+  workspaceId       String
+  promptText        String
+  category          String?
+  priority          String    @default("normal")
+  geography         String?
+  platformScopeJson Json      @default("[]")
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  workspace         Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  captures          Capture[]
+}
+
+model Capture {
+  id              String    @id @default(cuid())
+  workspaceId     String
+  promptId        String?
+  platform        String
+  promptText      String
+  responseText    String
+  responseHash    String
+  citationsRawJson Json     @default("[]")
+  captureMode     String    @default("manual")
+  pageUrl         String
+  capturedAt      DateTime
+  ingestionStatus String    @default("pending")
+  createdAt       DateTime  @default(now())
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  prompt          Prompt?   @relation(fields: [promptId], references: [id], onDelete: SetNull)
+  analysis        Analysis?
+
+  @@index([workspaceId])
+  @@index([promptId])
+  @@index([capturedAt])
+}
+
+model Analysis {
+  id                       String           @id @default(cuid())
+  captureId                String           @unique
+  workspaceId              String
+  brandMentioned           Boolean          @default(false)
+  brandMentionCount        Int              @default(0)
+  brandFirstPosition       Int?
+  competitorCountMentioned Int              @default(0)
+  score                    Int              @default(0)
+  scoreBreakdownJson       Json             @default("{}")
+  recommendationSummary    String?
+  processedAt              DateTime         @default(now())
+  capture                  Capture          @relation(fields: [captureId], references: [id], onDelete: Cascade)
+  workspace                Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mentions                 Mention[]
+  citations                CitationRecord[]
+  recommendations          Recommendation[]
+
+  @@index([workspaceId])
+  @@index([score])
+}
+
+model Mention {
+  id            String   @id @default(cuid())
+  analysisId    String
+  entityName    String
+  entityType    String
+  matchedAlias  String?
+  mentionCount  Int      @default(1)
+  firstPosition Int?
+  confidence    Float    @default(1.0)
+  analysis      Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+}
+
+model CitationRecord {
+  id           String   @id @default(cuid())
+  analysisId   String
+  url          String
+  canonicalUrl String?
+  rootDomain   String?
+  sourceType   String   @default("unknown")
+  title        String?
+  analysis     Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+}
+
+model Recommendation {
+  id         String   @id @default(cuid())
+  analysisId String
+  ruleKey    String
+  priority   String   @default("medium")
+  message    String
+  createdAt  DateTime @default(now())
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+}
+
+model JobAudit {
+  id           String   @id @default(cuid())
+  jobType      String
+  targetId     String?
+  status       String   @default("pending")
+  errorMessage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
