@@ -1,5 +1,11 @@
+import type { PlasmoCSConfig } from "plasmo";
+
+export const config: PlasmoCSConfig = {
+  matches: ["http://localhost:3000/*", "https://*.langsync.com/*"],
+  run_at: "document_idle",
+};
+
 /**
- * Content script injected on the LangSync dashboard.
  * Listens for a postMessage from the dashboard page carrying the Clerk JWT
  * and relays it to the background service worker for storage.
  */

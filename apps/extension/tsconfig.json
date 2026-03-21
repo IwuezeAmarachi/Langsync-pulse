@@ -2,8 +2,18 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["DOM", "ES2022"],
-    "types": ["chrome", "node"]
+    "lib": [
+      "DOM",
+      "ES2022"
+    ],
+    "types": [
+      "chrome",
+      "node"
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": [
+    ".plasmo/index.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

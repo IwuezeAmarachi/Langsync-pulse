@@ -3,9 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "echo \"Use chrome://extensions -> Load unpacked apps/extension\"",
-    "build": "tsc --noEmit",
+    "dev": "plasmo dev",
+    "build": "plasmo build",
     "typecheck": "tsc --noEmit"
+  },
+  "manifest": {
+    "name": "LangSync Pulse",
+    "description": "Capture AI responses and sync to LangSync Pulse.",
+    "permissions": ["storage", "activeTab", "scripting", "tabs"],
+    "host_permissions": [
+      "https://chatgpt.com/*",
+      "https://www.perplexity.ai/*",
+      "https://gemini.google.com/*",
+      "http://localhost:3000/*",
+      "https://*.langsync.com/*"
+    ]
   },
   "dependencies": {
     "@langsync/shared-types": "0.1.0",
@@ -13,8 +25,9 @@
     "react-dom": "19.0.0"
   },
   "devDependencies": {
-    "typescript": "5.8.2",
     "@types/chrome": "0.0.292",
-    "@types/react": "19.0.10"
+    "@types/react": "19.0.10",
+    "plasmo": "^0.90.5",
+    "typescript": "5.8.2"
   }
 }
