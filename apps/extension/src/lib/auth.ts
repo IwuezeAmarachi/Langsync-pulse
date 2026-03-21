@@ -12,11 +12,20 @@ export async function getWorkspaceId(): Promise<string | null> {
   return auth?.workspaceId ?? null;
 }
 
-export function openDashboardLogin(): void {
-  chrome.tabs.create({ url: `${DASHBOARD_URL}/login?source=extension` });
-}
-
 export async function isAuthenticated(): Promise<boolean> {
   const token = await getAuthToken();
   return !!token;
+}
+
+export function openDashboardLogin(): void {
+  chrome.tabs.create({ url: `${DASHBOARD_URL}/sign-in?source=extension` });
+}
+
+export function openDashboard(): void {
+  chrome.tabs.create({ url: `${DASHBOARD_URL}/dashboard` });
+}
+
+export async function signOut(): Promise<void> {
+  await storage.clearAuth();
+  chrome.runtime.sendMessage({ type: "LANGSYNC_SIGN_OUT" });
 }

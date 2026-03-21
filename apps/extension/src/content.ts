@@ -1,5 +1,6 @@
 import type { CapturePayload } from "@langsync/shared-types";
 import { getExtractor } from "./extractors/registry";
+import { getWorkspaceId } from "./lib/auth";
 
 chrome.runtime.onMessage.addListener((message: { type: string }) => {
   if (message.type !== "LANGSYNC_TRIGGER_CAPTURE") return;
@@ -21,16 +22,24 @@ chrome.runtime.onMessage.addListener((message: { type: string }) => {
     return;
   }
 
-  const payload: CapturePayload = {
-    workspaceId: "ws_demo", // TODO: replace with storage.getAuth() after auth flow is wired
-    platform: extracted.platform,
-    promptText: extracted.promptText,
-    responseText: extracted.responseText,
-    citations: extracted.citations,
-    capturedAt: extracted.capturedAt,
-    pageUrl: extracted.pageUrl,
-    captureMode: "manual",
-  };
+  // Resolve workspaceId from storage before building the payload
+  getWorkspaceId().then((workspaceId) => {
+    if (!workspaceId) {
+      chrome.runtime.sendMessage({ type: "LANGSYNC_ERROR", error: "Not authenticated" });
+      return;
+    }
 
-  chrome.runtime.sendMessage({ type: "LANGSYNC_CAPTURE", payload });
+    const payload: CapturePayload = {
+      workspaceId,
+      platform: extracted.platform,
+      promptText: extracted.promptText,
+      responseText: extracted.responseText,
+      citations: extracted.citations,
+      capturedAt: extracted.capturedAt,
+      pageUrl: extracted.pageUrl,
+      captureMode: "manual",
+    };
+
+    chrome.runtime.sendMessage({ type: "LANGSYNC_CAPTURE", payload });
+  });
 });

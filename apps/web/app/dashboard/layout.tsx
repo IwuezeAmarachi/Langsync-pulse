@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { useWorkspace } from "@/hooks/use-workspace";
@@ -16,6 +17,24 @@ const navItems = [
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { workspace } = useWorkspace();
+
+  // Post auth token to window so the extension content script can pick it up
+  useEffect(() => {
+    if (!workspace) return;
+    async function sendTokenToExtension() {
+      try {
+        const res = await fetch("/api/auth/token");
+        if (!res.ok) return;
+        const { token, workspaceId } = await res.json();
+        if (token && workspaceId) {
+          window.postMessage({ type: "LANGSYNC_AUTH_RESPONSE", token, workspaceId }, "*");
+        }
+      } catch {
+        // Extension may not be installed — safe to ignore
+      }
+    }
+    sendTokenToExtension();
+  }, [workspace?.id]);
 
   return (
     <div className="flex min-h-screen bg-background">
