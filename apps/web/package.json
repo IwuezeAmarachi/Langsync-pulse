@@ -11,7 +11,10 @@
   "dependencies": {
     "@clerk/nextjs": "^7.0.6",
     "@langsync/analysis-engine": "0.1.0",
+    "@langsync/db": "^0.1.0",
     "@langsync/shared-types": "0.1.0",
+    "bullmq": "^5.41.2",
+    "ioredis": "^5.4.2",
     "next": "^16.2.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
