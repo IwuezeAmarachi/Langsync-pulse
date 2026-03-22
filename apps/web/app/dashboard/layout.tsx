@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,14 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { workspace } = useWorkspace();
+  const router = useRouter();
+  const { workspace, isLoading } = useWorkspace();
+
+  useEffect(() => {
+    if (!isLoading && !workspace) {
+      router.push("/onboarding");
+    }
+  }, [workspace, isLoading, router]);
 
   // Post auth token to window so the extension content script can pick it up
   useEffect(() => {
