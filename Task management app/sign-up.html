@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up — taskhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              'th-bg': '#f4f6f6',
+              'th-card-wrap': '#edf1f1',
+              'th-text': '#3f5d5a',
+              'th-muted': '#4f7471',
+              'th-line': '#dce3e3',
+              'th-blue': '#0037ff',
+              'th-blue-dark': '#002dd1',
+            },
+            boxShadow: {
+              card: '0 1px 2px 0 rgba(24, 35, 34, 0.05)',
+              'btn-primary':
+                '0 0 0 1px #0025ad, 0 4px 12px -2px rgba(0, 27, 126, 0.72), 0 0 0 4px #d3dcff',
+              'btn-outline': '0 0 0 3px #eaefef',
+              'btn-social': '0 0 0 3px #f5f9f9',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Figma layer names → grid areas (node 11:10 “Sign Up”) */
+      .sign-up-frame {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+          "Nav"
+          "Card"
+          "Footer";
+        min-height: 100vh;
+      }
+      .layer-Nav {
+        grid-area: Nav;
+      }
+      .layer-Card {
+        grid-area: Card;
+      }
+      .layer-Footer {
+        grid-area: Footer;
+      }
+      /*
+        Inner card: Figma layers (unique names for grid areas — multiple “Line” / “Button” in file).
+        Paragraph container | Line | Input | Line | Button | Line | (login text)
+      */
+      .card-inner-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "Paragraph-container"
+          "Line-1"
+          "Input"
+          "Line-2"
+          "Button-group"
+          "Line-3"
+          "Login-line";
+        row-gap: 1.75rem;
+        width: 100%;
+      }
+      .layer-Paragraph-container {
+        grid-area: Paragraph-container;
+      }
+      .layer-Line-1 {
+        grid-area: Line-1;
+      }
+      .layer-Input {
+        grid-area: Input;
+      }
+      .layer-Line-2 {
+        grid-area: Line-2;
+      }
+      .layer-Button-group {
+        grid-area: Button-group;
+      }
+      .layer-Line-3 {
+        grid-area: Line-3;
+      }
+      .layer-Login-line {
+        grid-area: Login-line;
+      }
+    </style>
+  </head>
+  <body class="bg-th-bg font-sans text-black antialiased">
+    <!-- data-name="Sign Up" -->
+    <div
+      class="sign-up-frame overflow-hidden rounded-2xl"
+      data-name="Sign Up"
+      data-node-id="11:10"
+    >
+      <!-- Nav -->
+      <header
+        class="layer-Nav flex w-full items-center justify-between px-6 pt-4 md:px-12"
+        data-name="Nav"
+        data-node-id="79:1653"
+      >
+        <div class="flex items-center gap-3.5 py-2" data-name="Logo" data-node-id="66:1498">
+          <div
+            class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0037ff] to-[#0025ad] shadow-sm"
+            data-name="Button"
+            data-node-id="66:1499"
+            aria-hidden="true"
+          >
+            <span class="text-xl font-bold leading-none text-[#FFD800]">t</span>
+          </div>
+          <span class="font-display text-[26px] font-bold leading-10 tracking-tight" data-node-id="66:1501"
+            >taskhub</span
+          >
+        </div>
+        <div class="flex items-center gap-4" data-name="Button container" data-node-id="79:1656">
+          <button
+            type="button"
+            class="rounded-lg px-4 py-2 text-base font-semibold leading-6 tracking-tight text-black"
+            data-name="Horizontal container"
+            data-node-id="79:1648"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            class="rounded-lg border border-th-line bg-white px-4 py-2 text-base font-semibold leading-6 tracking-tight text-black shadow-btn-outline"
+            data-name="Button"
+            data-node-id="79:1654"
+          >
+            Download
+          </button>
+        </div>
+      </header>
+
+      <!-- Card (outer shell + inner form) -->
+      <main
+        class="layer-Card flex min-h-0 flex-col items-center justify-center px-4 py-8"
+        data-name="Card"
+        data-node-id="79:1646"
+      >
+        <div class="flex w-full max-w-[495px] flex-col items-center gap-4 rounded-[20px] bg-th-card-wrap p-1 pt-1 pb-5">
+          <!-- Inner Card -->
+          <div
+            class="w-full max-w-[487px] rounded-2xl bg-white p-7 shadow-card"
+            data-name="Card"
+            data-node-id="75:1519"
+          >
+            <div class="card-inner-grid">
+              <div
+                class="layer-Paragraph-container flex flex-col gap-2 text-center"
+                data-name="Paragraph container"
+                data-node-id="75:1514"
+              >
+                <h1
+                  class="font-display text-[26px] font-semibold leading-10 text-black"
+                  data-node-id="75:1515"
+                >
+                  Sign Up
+                </h1>
+                <p
+                  class="text-base leading-[22px] tracking-tight text-th-muted"
+                  data-node-id="75:1516"
+                >
+                  By signing up, I agree to the taskhub
+                  <a href="#" class="font-medium text-th-blue hover:underline">Privacy Policy </a>
+                  and
+                  <a href="#" class="font-medium text-th-blue hover:underline">Terms of Service</a>
+                </p>
+              </div>
+
+              <div
+                class="layer-Line-1 h-px w-full border-t border-dashed border-th-line/80"
+                data-name="Line"
+                data-node-id="75:1528"
+                role="separator"
+              ></div>
+
+              <div class="layer-Input flex flex-col gap-4" data-name="Input" data-node-id="75:1527">
+                <label class="sr-only" for="email">Email</label>
+                <div data-name="Input Field" data-node-id="106:32353">
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email or company email"
+                    class="w-full rounded-lg border border-th-line bg-white px-3.5 py-[13px] text-base leading-[22px] tracking-tight text-black placeholder:text-[#72908d] focus:border-th-blue focus:outline-none focus:ring-2 focus:ring-th-blue/20"
+                    data-name="Text input"
+                    autocomplete="email"
+                  />
+                </div>
+                <button
+                  type="button"
+                  class="flex w-full items-center justify-center gap-3 rounded-lg border border-white bg-gradient-to-b from-th-blue to-th-blue-dark px-[18px] py-3 text-base font-semibold leading-6 tracking-tight text-white shadow-btn-primary"
+                  data-name="Button"
+                  data-node-id="105:30781"
+                >
+                  Sign Up with Email
+                </button>
+              </div>
+
+              <div
+                class="layer-Line-2 h-px w-full border-t border-dashed border-th-line/80"
+                data-name="Line"
+                data-node-id="77:1529"
+                role="separator"
+              ></div>
+
+              <div class="layer-Button-group flex flex-col gap-4" data-name="Button" data-node-id="77:1530">
+                <button
+                  type="button"
+                  class="flex w-full items-center justify-center gap-2 rounded-lg border border-th-line bg-white px-3.5 py-3 text-base font-semibold leading-6 tracking-tight text-black shadow-btn-social"
+                  data-name="Button"
+                  data-node-id="77:1533"
+                >
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-name="apple">
+                    <path
+                      d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"
+                    />
+                  </svg>
+                  Continue with Apple
+                </button>
+                <button
+                  type="button"
+                  class="flex w-full items-center justify-center gap-2 rounded-lg border border-th-line bg-white px-3.5 py-3 text-base font-semibold leading-6 tracking-tight text-black shadow-btn-social"
+                  data-name="Button"
+                  data-node-id="77:1535"
+                >
+                  <!-- google -->
+                  <span class="inline-flex h-5 w-5 shrink-0" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                  Continue with Google
+                </button>
+              </div>
+
+              <div
+                class="layer-Line-3 h-px w-full border-t border-dashed border-th-line/80"
+                data-name="Line"
+                data-node-id="79:1609"
+                role="separator"
+              ></div>
+
+              <p
+                class="layer-Login-line text-center text-base leading-[22px] tracking-tight text-th-muted"
+                data-node-id="79:1610"
+              >
+                Already have an account?
+                <a href="#" class="font-medium text-th-blue hover:underline">Login</a>
+              </p>
+            </div>
+          </div>
+
+          <p
+            class="text-center text-base leading-[22px] tracking-tight text-th-text"
+            data-node-id="79:1647"
+          >
+            Question? Need a hand?
+            <a href="#" class="font-medium text-th-blue hover:underline">Support Can Help</a>
+          </p>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer
+        class="layer-Footer flex flex-wrap items-center justify-center gap-6 px-4 pb-8 pt-2 text-base"
+        data-name="Footer"
+        data-node-id="79:1659"
+      >
+        <p class="leading-[22px] tracking-tight text-th-text" data-node-id="79:1657">© 2024 taskhub</p>
+        <a href="#" class="font-semibold leading-6 tracking-tight text-black hover:underline" data-node-id="79:1658"
+          >Terms of Service</a
+        >
+        <a href="#" class="font-semibold leading-6 tracking-tight text-black hover:underline" data-node-id="79:1660"
+          >Privacy Policy</a
+        >
+        <a href="#" class="font-semibold leading-6 tracking-tight text-black hover:underline" data-node-id="79:1661"
+          >Support</a
+        >
+        <button
+          type="button"
+          class="flex items-center gap-1 font-semibold leading-6 tracking-tight text-black"
+          data-name="Button"
+          data-node-id="79:1679"
+        >
+          <svg
+            class="h-6 w-6 text-th-text"
+            data-name="Globe"
+            data-node-id="79:1677"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span data-node-id="79:1662">English</span>
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>
